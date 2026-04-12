@@ -13,12 +13,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/cheqro/Jenkins-first'
-            }
-        }
-
         stage('Build') {
             steps {
                 sh 'mvn clean compile'
