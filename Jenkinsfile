@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    parameters {
+        booleanParam(name: 'SKIP_TESTS', defaultValue: false, description: 'Skip unit tests')
+    }
+
     tools {
         maven 'Maven-3'   // must match Jenkins Global Tool config
         jdk 'JDK-17'      // must match Jenkins Global Tool config
@@ -15,7 +19,13 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean compile'
+               script {
+                       if (params.SKIP_TESTS) {
+                           sh 'mvn clean package -DskipTests'
+                       } else {
+                               sh 'mvn clean package'
+                               }
+                       }
             }
         }
 
